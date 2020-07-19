@@ -1,10 +1,13 @@
 # bluetooth_control
 
-A new Flutter application.
+It is a simple flutter app with bluetooth connectivity to send data to HC-05 Bluetooth module. I used shared preferences for small data storage such as time.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Packages used in this project:
+provider: ^4.3.1 | https://github.com/rrousselGit/provider
+flutter_bluetooth_serial: ^0.2.2 |https://pub.dev/packages/flutter_bluetooth_serial 
+shared_preferences: ^0.5.8 | https://pub.dev/packages/shared_preferences
 
 A few resources to get you started if this is your first Flutter project:
 
