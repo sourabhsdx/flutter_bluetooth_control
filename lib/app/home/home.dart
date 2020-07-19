@@ -31,9 +31,9 @@ class _HomePageState extends State<HomePage> {
         },
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
-            color: Colors.white
-          ),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+              color: Colors.white),
           child: ListView(
             children: <Widget>[
               FutureBuilder<List<BluetoothDevice>>(
@@ -61,7 +61,8 @@ class _HomePageState extends State<HomePage> {
                               value: _value,
                             ),
                             RaisedButton(
-                              child: Text(_connected ? "Disconnect" : "Connect"),
+                              child:
+                                  Text(_connected ? "Disconnect" : "Connect"),
                               onPressed: _connected
                                   ? () => _disconnect(context)
                                   : () => _connect(context),
@@ -78,7 +79,6 @@ class _HomePageState extends State<HomePage> {
                   return CircularProgressIndicator();
                 },
               ),
-
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
@@ -88,7 +88,9 @@ class _HomePageState extends State<HomePage> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         if (snapshot.hasData) {
-                          return snapshot.data ? Text('Status : On ') : Text('Status : Off ');
+                          return snapshot.data
+                              ? Text('Status : On ')
+                              : Text('Status : Off ');
                         }
                         return Text('Off ');
                       }
@@ -97,9 +99,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                   subtitle: FutureBuilder<String>(
                     future: sharedPref.getTurnOnLight(),
-                    builder: (context,snapshot){
-                      if(snapshot.connectionState==ConnectionState.done){
-                        if(snapshot.hasData){
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
                           return Text("Last turned on: ${snapshot.data}");
                         }
                         return Text('unknown');
@@ -109,9 +111,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                   trailing: FutureBuilder<String>(
                     future: sharedPref.getTurnOffLight(),
-                    builder: (context,snapshot){
-                      if(snapshot.connectionState==ConnectionState.done){
-                        if(snapshot.hasData){
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
                           return Text("Last turned off: ${snapshot.data}");
                         }
                         return Text('unknown');
@@ -125,23 +127,25 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
                   leading: Icon(Icons.ac_unit),
-                title: FutureBuilder<bool>(
-                  future: sharedPref.getStatus('fan'),
-                  builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasData) {
-                    return snapshot.data ? Text('Status : On ') : Text('Status : Off ');
-                  }
-                  return Text('Off ');
-                }
-                return Text('unknown ');
-                  },
-                ),
+                  title: FutureBuilder<bool>(
+                    future: sharedPref.getStatus('fan'),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
+                          return snapshot.data
+                              ? Text('Status : On ')
+                              : Text('Status : Off ');
+                        }
+                        return Text('Off ');
+                      }
+                      return Text('unknown ');
+                    },
+                  ),
                   subtitle: FutureBuilder<String>(
                     future: sharedPref.getTurnOnFan(),
-                    builder: (context,snapshot){
-                      if(snapshot.connectionState==ConnectionState.done){
-                        if(snapshot.hasData){
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
                           return Text("Last turned on: ${snapshot.data}");
                         }
                         return Text('unknown');
@@ -149,11 +153,11 @@ class _HomePageState extends State<HomePage> {
                       return Text('unknown');
                     },
                   ),
-                  trailing:   FutureBuilder<String>(
+                  trailing: FutureBuilder<String>(
                     future: sharedPref.getTurnOffFan(),
-                    builder: (context,snapshot){
-                      if(snapshot.connectionState==ConnectionState.done){
-                        if(snapshot.hasData){
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
                           return Text("Last turned off: ${snapshot.data}");
                         }
                         return Text('unknown');
@@ -174,44 +178,46 @@ class _HomePageState extends State<HomePage> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
-                            return snapshot.data ?  FlatButton(
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(Icons.flash_off),
-                                  Text("OFF"),
-                                ],
-                              ),
-                              onPressed: !_connected
-                                  ? null
-                                  : () {
-                                bluetooth.write("7");
-                                sharedPref.setStatus('light', false);
-                                sharedPref.setTurnOffLight();
-                                setState(() {});
-                              },
-                            ) : FlatButton(
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(Icons.flash_on),
-                                  Text("On"),
-                                ],
-                              ),
-                              onPressed: !_connected
-                                  ? null
-                                  : () {
-                                bluetooth.write("L");
-                                sharedPref.setStatus('light', true);
-                                sharedPref.setTurnOnLight();
-                                setState(() {});
-                              },
-                            );
+                            return snapshot.data
+                                ? FlatButton(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(Icons.flash_off),
+                                        Text("OFF"),
+                                      ],
+                                    ),
+                                    onPressed: !_connected
+                                        ? null
+                                        : () {
+                                            bluetooth.write("7");
+                                            sharedPref.setStatus(
+                                                'light', false);
+                                            sharedPref.setTurnOffLight();
+                                            setState(() {});
+                                          },
+                                  )
+                                : FlatButton(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(Icons.flash_on),
+                                        Text("On"),
+                                      ],
+                                    ),
+                                    onPressed: !_connected
+                                        ? null
+                                        : () {
+                                            bluetooth.write("L");
+                                            sharedPref.setStatus('light', true);
+                                            sharedPref.setTurnOnLight();
+                                            setState(() {});
+                                          },
+                                  );
                           }
                           return Text('Off ');
                         }
                         return Text('unknown');
                       },
-                    )
-                    ,
+                    ),
                   ],
                 ),
               ),
@@ -226,44 +232,45 @@ class _HomePageState extends State<HomePage> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
-                            return snapshot.data ? FlatButton(
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(Icons.flash_off),
-                                  Text("OFF"),
-                                ],
-                              ),
-                              onPressed: !_connected
-                                  ? null
-                                  : () {
-                                bluetooth.write("3");
-                                sharedPref.setStatus('fan', false);
-                                sharedPref.setTurnOffFan();
-                                setState(() {});
-                              },
-                            ) :  FlatButton(
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(Icons.flash_on),
-                                  Text("On"),
-                                ],
-                              ),
-                              onPressed: !_connected
-                                  ? null
-                                  : () {
-                                bluetooth.write("F");
-                                sharedPref.setStatus('fan', true);
-                                sharedPref.setTurnOnFan();
-                                setState(() {});
-                              },
-                            );
+                            return snapshot.data
+                                ? FlatButton(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(Icons.flash_off),
+                                        Text("OFF"),
+                                      ],
+                                    ),
+                                    onPressed: !_connected
+                                        ? null
+                                        : () {
+                                            bluetooth.write("3");
+                                            sharedPref.setStatus('fan', false);
+                                            sharedPref.setTurnOffFan();
+                                            setState(() {});
+                                          },
+                                  )
+                                : FlatButton(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(Icons.flash_on),
+                                        Text("On"),
+                                      ],
+                                    ),
+                                    onPressed: !_connected
+                                        ? null
+                                        : () {
+                                            bluetooth.write("F");
+                                            sharedPref.setStatus('fan', true);
+                                            sharedPref.setTurnOnFan();
+                                            setState(() {});
+                                          },
+                                  );
                           }
                           return Text('Off ');
                         }
                         return Text('unknown ');
                       },
-                    )
-                    ,
+                    ),
                   ],
                 ),
               )

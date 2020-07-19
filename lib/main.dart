@@ -20,20 +20,14 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MultiProvider(
-        providers: [
-          Provider(
-            create: (_)=>BluetoothService(),
-          ),
-          Provider(
-            create: (_)=>SharedPrefService(),
-          )
-
-        ],
-
-          child: HomePage()
-      ),
+      home: MultiProvider(providers: [
+        Provider(
+          create: (_) => BluetoothService(),
+        ),
+        Provider(
+          create: (_) => SharedPrefService(),
+        )
+      ], child: HomePage()),
     );
   }
 }
-
