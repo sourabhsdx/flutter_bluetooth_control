@@ -1,6 +1,8 @@
 # bluetooth_control
 
 It is a simple flutter app with bluetooth connectivity to send data to HC-05 Bluetooth module. I used shared preferences for small data storage such as time.
+Arduino Code
+https://github.com/sourabhsdx/arduino_bluetooth_relay_control.git
 
 ## Getting Started
 
