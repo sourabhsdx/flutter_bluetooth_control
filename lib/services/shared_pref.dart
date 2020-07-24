@@ -11,11 +11,22 @@ abstract class SharedPref {
   Future<String> getTurnOnFan();
   Future<String> getTurnOffLight();
   Future<String> getTurnOffFan();
+  Future<bool> setAddress(String address);
+  Future<String> getAddress();
 }
 
 class SharedPrefService implements SharedPref {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
+  @override
+  Future<bool> setAddress(String address) async {
+    return await _prefs.then((pref) => pref.setString('address', address));
+  }
+
+  @override
+  Future<String> getAddress() async {
+    return await _prefs.then((pref) => pref.getString('address')??"nothing");
+  }
   //save light/ fan status
   @override
   Future<bool> setStatus(String key, bool value) async {

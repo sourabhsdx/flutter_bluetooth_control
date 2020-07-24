@@ -1,9 +1,5 @@
-import 'package:bluetooth_control/services/bluetooth.dart';
+import 'package:bluetooth_control/app/home/splash.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:bluetooth_control/services/shared_pref.dart';
-
-import 'app/home/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,14 +16,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MultiProvider(providers: [
-        Provider(
-          create: (_) => BluetoothService(),
-        ),
-        Provider(
-          create: (_) => SharedPrefService(),
-        )
-      ], child: HomePage()),
+      home: SplashScreen(),
     );
   }
 }

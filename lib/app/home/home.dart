@@ -12,6 +12,31 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String _value;
   bool _connected = false;
+  bool _connecting = true;
+
+  _autoConnect(BuildContext context) async {
+    final SharedPref sharedPref = Provider.of<SharedPrefService>(context,listen: false);
+    String address = await sharedPref.getAddress();
+    if(address=='nothing'){
+      return;
+    }
+    else{
+      setState(() {
+        _value = address;
+      });
+      _connect(context);
+    }
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Future.delayed(Duration.zero,(){
+      _autoConnect(context);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,20 +77,26 @@ class _HomePageState extends State<HomePage> {
                                         value: e.address,
                                       ))
                                   .toList(),
-                              onChanged: (value) {
+                              onChanged: _connected?null:(value) {
                                 setState(() {
                                   _value = value;
                                   print(_value);
                                 });
                               },
                               value: _value,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                              ),
+                              disabledHint: Text("Disconnect to change device"),
                             ),
                             RaisedButton(
                               child:
                                   Text(_connected ? "Disconnect" : "Connect"),
-                              onPressed: _connected
-                                  ? () => _disconnect(context)
-                                  : () => _connect(context),
+                              onPressed:_connecting?null:(){
+                                   _connected? _disconnect(context):_connect(context);
+                             },
+                              color: _connected?Colors.red:Colors.green,
+                              textColor: Colors.white,
                             )
                           ],
                         ),
@@ -287,6 +318,7 @@ class _HomePageState extends State<HomePage> {
     final SharedPref sharedPref =
         Provider.of<SharedPrefService>(context, listen: false);
     bool status = await bluetooth.connectTo(_value);
+    await sharedPref.setAddress(_value);
     if (status) {
       sharedPref.getStatus('light').then((value) {
         value ? bluetooth.write('L') : bluetooth.write('7');
@@ -297,15 +329,17 @@ class _HomePageState extends State<HomePage> {
     }
     setState(() {
       _connected = status;
+      _connecting = false;
     });
   }
 
   _disconnect(BuildContext context) async {
     final Bluetooth bluetooth =
         Provider.of<BluetoothService>(context, listen: false);
-    bool status = await bluetooth.disconnect();
+    bluetooth.disconnect();
     setState(() {
-      _connected = status;
+      _connected = false;
     });
+
   }
 }
